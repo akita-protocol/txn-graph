@@ -8,7 +8,6 @@
 
 import {
   Horizontal,
-  Representation,
   RepresentationType,
   SelfLoop,
   Vector,

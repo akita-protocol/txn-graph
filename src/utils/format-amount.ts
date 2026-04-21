@@ -1,7 +1,5 @@
 import type { AmountLike } from '../models'
 
-const MICROALGOS_PER_ALGO = 1_000_000n
-
 /** Coerce an `AmountLike` into a bigint of microalgos (or base-unit ticks). */
 export function toBigInt(amount: AmountLike | number | bigint): bigint {
   if (typeof amount === 'bigint') return amount

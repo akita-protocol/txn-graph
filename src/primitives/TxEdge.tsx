@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react'
-import { G, Path, Polygon } from 'react-native-svg'
-import Animated, {
+import { G, Polygon } from 'react-native-svg'
+import {
   Easing,
   cancelAnimation,
   useAnimatedProps,
