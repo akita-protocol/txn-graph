@@ -17,6 +17,8 @@ export { VerticalNode } from './VerticalNode'
 export type { VerticalNodeProps } from './VerticalNode'
 export { SequenceBackdrop } from './SequenceBackdrop'
 export type { SequenceBackdropProps } from './SequenceBackdrop'
+export { HorizontalTitleOverlay } from './HorizontalTitleOverlay'
+export type { HorizontalTitleOverlayProps } from './HorizontalTitleOverlay'
 export {
   catmullRomToBezier,
   clamp,

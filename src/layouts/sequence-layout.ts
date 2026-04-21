@@ -179,6 +179,15 @@ export function makeSequenceLayout(options: SequenceLayoutOptions = {}): Layout 
       const laneX = new Map<number, number>()
       verticals.forEach((_, i) => laneX.set(i, colCenterX(i, opts)))
 
+      // Per-horizontal title-row geometry. Consumers overlay HTML here so the
+      // DOM carries real `<a>` tags for tests + screen readers + middle-click.
+      const horizontalRows = horizontals.map((h, i) => ({
+        horizontalIndex: i,
+        horizontal: h,
+        y: opts.padding + opts.headerHeight + i * opts.rowHeight,
+        height: opts.rowHeight,
+      }))
+
       const totalWidth =
         opts.padding * 2 + opts.titleWidth + Math.max(1, verticals.length) * opts.colWidth
       const totalHeight =
@@ -191,6 +200,8 @@ export function makeSequenceLayout(options: SequenceLayoutOptions = {}): Layout 
         height: totalHeight,
         accountLaneX: laneX,
         headerHeight: opts.headerHeight,
+        titleWidth: opts.titleWidth,
+        horizontalRows,
       }
     },
   }

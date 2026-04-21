@@ -7,6 +7,7 @@ import { ThemeProvider, useTheme } from '../theme'
 import {
   AssetBadge,
   ActiveEdgeProvider,
+  HorizontalTitleOverlay,
   Marker,
   SequenceBackdrop,
   TxEdge,
@@ -54,7 +55,7 @@ export function TransactionsGraph(props: GraphProps): React.JSX.Element {
     onEdgeTap: _onEdgeTap,
     renderTooltip: _renderTooltip,
     renderVerticalTitle: _renderVerticalTitle,
-    renderHorizontalTitle: _renderHorizontalTitle,
+    renderHorizontalTitle,
     theme,
     width,
     height,
@@ -120,6 +121,7 @@ export function TransactionsGraph(props: GraphProps): React.JSX.Element {
           filename={filename}
           onEntityTap={onEntityTap}
           animate={animate}
+          renderHorizontalTitle={renderHorizontalTitle}
         />
       </GraphViewport>
     </ActiveEdgeProvider>
@@ -144,15 +146,28 @@ function GraphSvgBody({
   filename,
   onEntityTap,
   animate,
+  renderHorizontalTitle,
 }: {
   result: LayoutResult
   downloadable?: boolean
   filename?: string
   onEntityTap?: GraphProps['onEntityTap']
   animate: boolean
+  renderHorizontalTitle?: GraphProps['renderHorizontalTitle']
 }): React.JSX.Element {
   const theme = useTheme()
   const svgRef = useRef<SVGSVGElement | null>(null)
+
+  // The HTML title overlay lives inside the GraphViewport's Animated.View
+  // (because GraphSvgBody is passed as that view's children), so the overlay
+  // scales + pans with the graph. We position it at `x = viewport.padding`
+  // so it lines up with the reserved title band that the sequence layout
+  // leaves to the left of the first lane.
+  const showOverlay =
+    renderHorizontalTitle !== undefined &&
+    result.horizontalRows !== undefined &&
+    result.horizontalRows.length > 0 &&
+    result.titleWidth !== undefined
 
   return (
     <View>
@@ -178,6 +193,15 @@ function GraphSvgBody({
           <EdgeGroup key={edge.id} edge={edge} result={result} animate={animate} />
         ))}
       </Svg>
+      {showOverlay ? (
+        <HorizontalTitleOverlay
+          rows={result.horizontalRows!}
+          edges={result.edges}
+          left={theme.viewport.padding}
+          width={result.titleWidth!}
+          render={renderHorizontalTitle!}
+        />
+      ) : null}
       {downloadable ? (
         <View
           pointerEvents="box-none"

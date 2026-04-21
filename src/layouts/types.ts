@@ -43,6 +43,21 @@ export type PositionedEdge = {
   direction?: 'leftToRight' | 'rightToLeft'
 }
 
+/**
+ * Per-horizontal title-slot geometry. Drives the HTML title overlay on web so
+ * consumers can render `<TransactionLink>` (and friends) inside the reserved
+ * title column. One entry per horizontal — not per edge — so the overlay
+ * doesn't emit duplicates when a horizontal produces multiple sub-edges.
+ */
+export type HorizontalTitleRow = {
+  horizontalIndex: number
+  horizontal: import('../models').Horizontal
+  /** Top Y of the row's title slot in user-space. */
+  y: number
+  /** Height of the title slot. */
+  height: number
+}
+
 export type LayoutResult = {
   nodes: PositionedNode[]
   edges: PositionedEdge[]
@@ -52,6 +67,14 @@ export type LayoutResult = {
   accountLaneX?: Map<number, number>
   /** Sequence-mode only: height of the column-header band. */
   headerHeight?: number
+  /**
+   * Width of the reserved title column (left of the first lane). Consumers
+   * render HTML titles inside this band. Sequence layout always emits it; the
+   * future DAG layout leaves it unset.
+   */
+  titleWidth?: number
+  /** Left-column row geometry for HTML title rendering. */
+  horizontalRows?: HorizontalTitleRow[]
 }
 
 /** Shared identity helper so sequence + dag agree on node ids. */
