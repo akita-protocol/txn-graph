@@ -71,32 +71,47 @@ export function TxEdge({ edge, forceActive, animate = true }: TxEdgeProps): Reac
 
   const edgeId = edge.id
 
+  // Explicit deps arrays on every `useAnimatedProps`/`useAnimatedStyle` so
+  // these worklets work under the Reanimated web-without-babel path (lora,
+  // Vite/SWC). The babel plugin injects them automatically on native /
+  // Metro. Shared values are stable — the hook re-derives only when scalar
+  // inputs (`edgeId`, `forceActive`, `dimOpacity`) change.
+
   // Base stroke: visible regardless of active state, dimmed when some other
   // edge is active so the scene calms down around the focus.
-  const baseProps = useAnimatedProps(() => {
-    const anyActive = activeEdgeId.value !== null
-    const isActive = forceActive || activeEdgeId.value === edgeId
-    return {
-      strokeOpacity: isActive ? 1 : anyActive ? dimOpacity : 1,
-    }
-  })
+  const baseProps = useAnimatedProps(
+    () => {
+      const anyActive = activeEdgeId.value !== null
+      const isActive = forceActive || activeEdgeId.value === edgeId
+      return {
+        strokeOpacity: isActive ? 1 : anyActive ? dimOpacity : 1,
+      }
+    },
+    [activeEdgeId, forceActive, edgeId, dimOpacity],
+  )
 
   // Halo: only shown on the active edge.
-  const haloProps = useAnimatedProps(() => {
-    const isActive = forceActive || activeEdgeId.value === edgeId
-    return {
-      strokeOpacity: isActive ? 0.35 : 0,
-    }
-  })
+  const haloProps = useAnimatedProps(
+    () => {
+      const isActive = forceActive || activeEdgeId.value === edgeId
+      return {
+        strokeOpacity: isActive ? 0.35 : 0,
+      }
+    },
+    [activeEdgeId, forceActive, edgeId],
+  )
 
   // Dots overlay: only shown on the active edge, offset animates forever.
-  const dotsProps = useAnimatedProps(() => {
-    const isActive = forceActive || activeEdgeId.value === edgeId
-    return {
-      strokeOpacity: isActive ? 1 : 0,
-      strokeDashoffset: dashOffset.value,
-    }
-  })
+  const dotsProps = useAnimatedProps(
+    () => {
+      const isActive = forceActive || activeEdgeId.value === edgeId
+      return {
+        strokeOpacity: isActive ? 1 : 0,
+        strokeDashoffset: dashOffset.value,
+      }
+    },
+    [activeEdgeId, forceActive, edgeId, dashOffset],
+  )
 
   const arrowPoly = useMemo(() => computeArrowPolygon(edge), [edge])
 

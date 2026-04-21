@@ -57,6 +57,15 @@ export type GraphProps = {
   /** Allow fullscreen toggle. Default: true. */
   fullscreenable?: boolean
 
+  /**
+   * Marching-dots animation on the active edge. Defaults to `true` in normal
+   * environments and auto-disables when `process.env.NODE_ENV === 'test'` so
+   * snapshot tests produce deterministic `strokeDashoffset` values. Pass an
+   * explicit boolean to override (e.g. `animate={true}` inside a
+   * vitest-based visual-regression suite).
+   */
+  animate?: boolean
+
   /** Fires when a node is tapped. Receives the entity discriminated ref. */
   onEntityTap?: (ref: EntityRef, event?: unknown) => void
   /** Fires when an edge is tapped. */

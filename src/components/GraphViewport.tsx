@@ -110,13 +110,22 @@ export const GraphViewport = forwardRef<GraphViewportHandle, GraphViewportProps>
       [height, width],
     )
 
-    const animatedContentStyle = useAnimatedStyle(() => ({
-      transform: [
-        { translateX: controller.translateX.value },
-        { translateY: controller.translateY.value },
-        { scale: controller.scale.value },
-      ],
-    }))
+    // Explicit deps so the hook works under the web-without-babel path. The
+    // Reanimated Babel plugin auto-generates this array for us on native /
+    // Metro; consumers using SWC or Vite-without-plugin (like lora) don't
+    // get that rewrite, so the hook otherwise throws. Shared values are
+    // referentially stable across renders, so the hook only re-computes when
+    // the controller identity itself changes (effectively never here).
+    const animatedContentStyle = useAnimatedStyle(
+      () => ({
+        transform: [
+          { translateX: controller.translateX.value },
+          { translateY: controller.translateY.value },
+          { scale: controller.scale.value },
+        ],
+      }),
+      [controller.translateX, controller.translateY, controller.scale],
+    )
 
     const containerStyle: ViewStyle = useMemo(
       () => ({

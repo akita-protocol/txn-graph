@@ -43,6 +43,13 @@ export function TransactionsGraph(props: GraphProps): React.JSX.Element {
     showZoomToolbar = true,
     fitOnMount = true,
     fullscreenable = true,
+    // Default the marching-dots animation off in test runners so snapshot
+    // tests get deterministic `strokeDashoffset` values. Tests can still
+    // opt back in by passing `animate={true}` explicitly. We read
+    // `process.env.NODE_ENV` off `globalThis` so the check works in Node,
+    // browser, and react-native runtimes without a `@types/node` dep.
+    // See `TxEdge` for the actual animation kick-off.
+    animate = isTestEnv() ? false : true,
     onEntityTap,
     onEdgeTap: _onEdgeTap,
     renderTooltip: _renderTooltip,
@@ -112,6 +119,7 @@ export function TransactionsGraph(props: GraphProps): React.JSX.Element {
           downloadable={downloadable}
           filename={filename}
           onEntityTap={onEntityTap}
+          animate={animate}
         />
       </GraphViewport>
     </ActiveEdgeProvider>
@@ -135,11 +143,13 @@ function GraphSvgBody({
   downloadable,
   filename,
   onEntityTap,
+  animate,
 }: {
   result: LayoutResult
   downloadable?: boolean
   filename?: string
   onEntityTap?: GraphProps['onEntityTap']
+  animate: boolean
 }): React.JSX.Element {
   const theme = useTheme()
   const svgRef = useRef<SVGSVGElement | null>(null)
@@ -165,7 +175,7 @@ function GraphSvgBody({
           <VerticalNode key={node.id} node={node} onPress={onEntityTap} />
         ))}
         {result.edges.map((edge) => (
-          <EdgeGroup key={edge.id} edge={edge} result={result} />
+          <EdgeGroup key={edge.id} edge={edge} result={result} animate={animate} />
         ))}
       </Svg>
       {downloadable ? (
@@ -190,14 +200,16 @@ function GraphSvgBody({
 function EdgeGroup({
   edge,
   result,
+  animate,
 }: {
   edge: PositionedEdge
   result: LayoutResult
+  animate: boolean
 }): React.JSX.Element {
   void result
   return (
     <React.Fragment>
-      <TxEdge edge={edge} />
+      <TxEdge edge={edge} animate={animate} />
       {edge.markers.from ? (
         <Marker
           x={extractEndpoint(edge, 'from').x}
@@ -215,6 +227,16 @@ function EdgeGroup({
       <AssetBadge x={edge.labelAnchor.x} y={edge.labelAnchor.y} label={edge.label} />
     </React.Fragment>
   )
+}
+
+/**
+ * Detect a test-runner environment without relying on `@types/node`. Vitest,
+ * Jest, and most CI runners set `process.env.NODE_ENV === 'test'`. The
+ * `globalThis` cast avoids pulling Node types into the library surface.
+ */
+function isTestEnv(): boolean {
+  const g = globalThis as { process?: { env?: { NODE_ENV?: string } } }
+  return g.process?.env?.NODE_ENV === 'test'
 }
 
 /** Pull a point out of an edge's path string. Sequence-layout-safe parser. */
