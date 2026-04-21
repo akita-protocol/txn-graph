@@ -45,6 +45,9 @@ export {
   sequenceLayout,
   makeSequenceLayout,
   sequenceLayoutDefaults,
+  dagLayout,
+  makeDagLayout,
+  dagLayoutDefaults,
   nodeIdForVertical,
 } from './layouts'
 export type {
@@ -54,6 +57,7 @@ export type {
   PositionedEdge,
   Point2D,
   SequenceLayoutOptions,
+  DagLayoutFactoryOptions,
 } from './layouts'
 
 // ── Primitives

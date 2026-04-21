@@ -2,6 +2,7 @@ import React, { useMemo, useRef } from 'react'
 import { View } from 'react-native'
 import Svg from 'react-native-svg'
 import { sequenceLayout } from '../layouts/sequence-layout'
+import { makeDagLayout } from '../layouts/dag-layout'
 import type { LayoutResult } from '../layouts/types'
 import { ThemeProvider, useTheme } from '../theme'
 import {
@@ -27,14 +28,17 @@ import { cn } from '../utils/cn'
  * Top-level public component. Composes the layout, the SVG primitives, the
  * step-through state machine, and the viewport wrapper into a single surface.
  *
- * For M1, only the sequence layout is wired — passing `layout="dag"` throws a
- * clear runtime error so consumers know the feature is forthcoming. DAG mode
- * lands in M4 alongside `dag-layout.ts`.
+ * Both layouts produce the same `LayoutResult` shape, so the rendering path
+ * below is identical regardless of `props.layout`. The `dagOptions` prop is
+ * forwarded to `makeDagLayout` on demand — memoized on `data` + the option
+ * keys — so flipping between `'sequence'` and `'dag'` at runtime just swaps
+ * the `LayoutResult` without rebuilding the SVG tree.
  */
 export function TransactionsGraph(props: GraphProps): React.JSX.Element {
   const {
     data,
     layout = 'sequence',
+    dagOptions,
     activeStep,
     defaultActiveStep,
     onStepChange,
@@ -65,13 +69,23 @@ export function TransactionsGraph(props: GraphProps): React.JSX.Element {
     style,
   } = props
 
-  if (layout === 'dag') {
-    throw new Error(
-      '[visual-explorer] layout="dag" is not implemented until M4. Use layout="sequence" for now.',
-    )
-  }
+  // We rebuild the dag layout factory whenever the user-visible `dagOptions`
+  // change. `sequenceLayout` is a cached module-level instance so there's no
+  // equivalent factory call on that branch.
+  const dagOptionsKey = useMemo(
+    () => JSON.stringify(dagOptions ?? null),
+    [dagOptions],
+  )
 
-  const result = useMemo<LayoutResult>(() => sequenceLayout.compute(data), [data])
+  const result = useMemo<LayoutResult>(() => {
+    if (layout === 'dag') {
+      return makeDagLayout(dagOptions).compute(data)
+    }
+    return sequenceLayout.compute(data)
+    // `dagOptionsKey` is the stable dep — `dagOptions` itself is allowed to
+    // be a fresh object on every render by the consumer.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, layout, dagOptionsKey])
 
   const controller = useStepController({
     edges: result.edges,
