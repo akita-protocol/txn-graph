@@ -5,10 +5,20 @@
     "jsx": "react-native",
     "moduleResolution": "bundler",
     "paths": {
-      "@akita/visual-explorer": ["../src"],
-      "@akita/visual-explorer/*": ["../src/*"]
+      "@akita/visual-explorer": [
+        "../src"
+      ],
+      "@akita/visual-explorer/*": [
+        "../src/*"
+      ]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", "nativewind-env.d.ts", "expo-env.d.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "nativewind-env.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
