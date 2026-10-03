@@ -9,10 +9,15 @@
     "noImplicitReturns": true,
     "sourceMap": true,
     "target": "ES2020",
-    "lib": ["esnext", "dom"],
+    "lib": [
+      "esnext",
+      "dom"
+    ],
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "declaration": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
   }
 }

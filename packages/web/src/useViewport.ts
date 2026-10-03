@@ -11,7 +11,7 @@ const DRAG_THRESHOLD = 4
 const SPRING = { type: 'spring', stiffness: 520, damping: 52, mass: 1 } as const
 
 export type Viewport = {
-  ref: React.RefObject<HTMLDivElement | null>
+  ref: React.MutableRefObject<HTMLDivElement | null>
   x: MotionValue<number>
   y: MotionValue<number>
   scale: MotionValue<number>

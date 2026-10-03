@@ -200,6 +200,13 @@ button.tg-row:hover { background: var(--tg-card-hover); }
   border-radius: 6px; border: 1px solid var(--tg-border-strong); background: var(--tg-card); cursor: pointer; font-size: 12px;
 }
 .tg-open-btn:hover { background: var(--tg-card-hover); }
+.tg-txn-toggle { border: 0; background: none; padding: 0; cursor: pointer; text-align: left; }
+.tg-caret { color: var(--tg-subtle); font-size: 10px; }
+.tg-idx-link { text-decoration: none; }
+.tg-idx-link:hover .tg-row-idx { color: var(--tg-accent); text-decoration: underline; }
+.tg-txn-details { margin: 6px 0 2px 41px; padding: 8px 10px; border-radius: 6px; background: var(--tg-card); border: 1px solid var(--tg-border); font-size: 12px; overflow-x: auto; }
+.tg-ext-link { display: inline-block; margin-top: 6px; font-size: 12px; color: var(--tg-accent); text-decoration: none; }
+.tg-ext-link:hover { text-decoration: underline; }
 .tg-more { font-size: 11.5px; color: var(--tg-subtle); padding-top: 4px; }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import {
   CONNECTION_KINDS,
   connectionKindLabel,
   describeScope,
   methodsCalled,
   truncateAddress,
+  useEntityHref,
   useEntityTitle,
   useTheme,
   visibleFlows,
@@ -14,6 +15,7 @@ import {
   type TxnGraphController,
 } from '@akta/txn-graph-core'
 import { EntityName, LineSwatch, TxnItem } from './parts'
+import { MaybeLink } from './render-context'
 
 const MAX_ROWS = 40
 
@@ -49,6 +51,16 @@ function Close({ c }: { c: TxnGraphController }) {
 function ScopePanel({ c, rootTitle }: { c: TxnGraphController; rootTitle: string }) {
   const { view, graph } = c
   const title = useEntityTitle(view.entity)
+  const scopeRef = useMemo(
+    () =>
+      view.entity
+        ? ({ kind: 'application', id: view.entity.appId } as const)
+        : graph.groupId
+          ? ({ kind: 'group', id: graph.groupId } as const)
+          : null,
+    [graph.groupId, view.entity],
+  )
+  const scopeHref = useEntityHref(scopeRef)
   const callers = view.entity
     ? [...new Set(view.connections.filter((x) => x.kind === 'appl' && x.to === view.entity!.id).map((x) => x.from))]
     : []
@@ -64,6 +76,11 @@ function ScopePanel({ c, rootTitle }: { c: TxnGraphController; rootTitle: string
           ? `#${String(view.entity.appId)}${view.entity.address ? ` · ${truncateAddress(view.entity.address)}` : ''}`
           : graph.groupId ?? 'no group id'}
       </div>
+      {scopeHref && (
+        <MaybeLink href={scopeHref} className="tg-ext-link">
+          {view.entity ? 'Open app page' : 'Open group page'} ↗
+        </MaybeLink>
+      )}
       <p className="tg-panel-desc">{describeScope(view)}</p>
       <Section title="Counts">
         <dl className="tg-kv">
@@ -124,8 +141,20 @@ function ScopePanel({ c, rootTitle }: { c: TxnGraphController; rootTitle: string
           </ul>
         </Section>
       )}
+      <TxnList c={c} flows={outerFlows(c)} title={view.entity ? 'Calls' : 'Top-level transactions'} />
     </>
   )
+}
+
+/** The main flow of each of the scope's outermost transactions, in group order. */
+function outerFlows(c: TxnGraphController): Flow[] {
+  const flows: Flow[] = []
+  for (const id of c.graph.order) {
+    if (!c.view.scope.rootTxnIds.has(id)) continue
+    const main = c.graph.flowsByTxn.get(id)?.[0]
+    if (main) flows.push(main)
+  }
+  return flows
 }
 
 function BlockPanel({ c, block }: { c: TxnGraphController; block: Block }) {
@@ -136,6 +165,16 @@ function BlockPanel({ c, block }: { c: TxnGraphController; block: Block }) {
   const id =
     e.kind === 'account' ? e.address : e.kind === 'app' ? `#${String(e.appId)}${e.address ? ` · ${e.address}` : ''}` : `#${String(e.assetId)}`
   const role = block.role ? theme.role[block.role] : undefined
+  const ref = useMemo(
+    () =>
+      e.kind === 'account'
+        ? ({ kind: 'account', address: e.address } as const)
+        : e.kind === 'app'
+          ? ({ kind: 'application', id: e.appId } as const)
+          : ({ kind: 'asset', id: e.assetId } as const),
+    [e],
+  )
+  const href = useEntityHref(ref)
 
   const conns = view.connections.filter(
     (x) => x.from === block.id || x.to === block.id || (e.kind === 'asset' && x.assetIds.some((a) => `asset:${String(a)}` === block.id)),
@@ -159,6 +198,11 @@ function BlockPanel({ c, block }: { c: TxnGraphController; block: Block }) {
       </div>
       <h3 className={`tg-panel-title${titleIsAddress ? ' tg-mono' : ''}`}>{title}</h3>
       <div className="tg-panel-id">{id}</div>
+      {href && (
+        <MaybeLink href={href} className="tg-ext-link">
+          Open {theme.entityLabel[e.kind].toLowerCase()} page ↗
+        </MaybeLink>
+      )}
       {block.drillable && (
         <button type="button" className="tg-open-btn" onClick={() => c.open(block.id)}>
           Open {block.parts} inner transactions <span className="tg-open">›</span>
@@ -255,12 +299,12 @@ function ConnectionPanel({ c, conns }: { c: TxnGraphController; conns: Connectio
   )
 }
 
-function TxnList({ c, flows }: { c: TxnGraphController; flows: Flow[] }) {
+function TxnList({ c, flows, title = 'Transactions' }: { c: TxnGraphController; flows: Flow[]; title?: string }) {
   if (!flows.length) return null
   const order = new Map(c.graph.order.map((id, i) => [id, i]))
   const sorted = [...flows].sort((a, b) => order.get(a.txnId)! - order.get(b.txnId)! || a.id.localeCompare(b.id))
   return (
-    <Section title="Transactions">
+    <Section title={title}>
       <ul className="tg-list">
         {sorted.slice(0, MAX_ROWS).map((f) => (
           <TxnItem key={f.id} graph={c.graph} flow={f} onEntity={(id) => c.select({ type: 'block', id })} />

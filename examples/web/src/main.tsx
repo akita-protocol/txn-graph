@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { TxnGraph } from '@akta/txn-graph-web'
 import { fixtures, mockDataProvider } from '@akta/txn-graph-fixtures'

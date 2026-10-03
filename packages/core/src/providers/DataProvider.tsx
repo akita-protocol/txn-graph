@@ -46,7 +46,13 @@ function useResolved<Key, Value>(
   const [value, setValue] = useState<Value | undefined>(() => {
     if (key === null || key === undefined) return undefined
     const raw = fetch(key)
-    if (raw === undefined || isPromise<Value>(raw)) return undefined
+    if (raw === undefined) return undefined
+    if (isPromise<Value>(raw)) {
+      // The effect below re-requests and handles the result; this call only
+      // primes caches, so its rejection must not surface as unhandled.
+      raw.catch(() => undefined)
+      return undefined
+    }
     return raw
   })
   const activeKey = useRef(key)

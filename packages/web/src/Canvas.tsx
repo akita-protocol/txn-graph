@@ -15,6 +15,7 @@ import {
 } from '@akta/txn-graph-core'
 import { useViewport, type Viewport } from './useViewport'
 import { EntityName, FlowAmount } from './parts'
+import { useRenderSlots } from './render-context'
 
 type State = 'on' | 'dim' | undefined
 
@@ -23,6 +24,7 @@ export function Canvas({ c }: { c: TxnGraphController }) {
   const { view, scene, highlight, filters } = c
   const vp = useViewport(scene.width, scene.height, view.scope.key)
   const tooltip = React.useRef<TooltipHandle>(null)
+  const { animate = true } = useRenderSlots()
 
   const stateOf = (lit: boolean): State => (highlight ? (lit ? 'on' : 'dim') : undefined)
   const track = (e: React.PointerEvent) => {
@@ -68,7 +70,7 @@ export function Canvas({ c }: { c: TxnGraphController }) {
           key={view.scope.key}
           className="tg-scene"
           style={{ width: scene.width, height: scene.height }}
-          initial={{ opacity: 0, scale: 0.985 }}
+          initial={animate ? { opacity: 0, scale: 0.985 } : false}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}
         >

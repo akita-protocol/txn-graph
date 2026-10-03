@@ -6,3 +6,4 @@
 export * from '@akta/txn-graph-core'
 export { TxnGraph } from './TxnGraph'
 export type { TxnGraphProps } from './TxnGraph'
+export type { RenderSlots, RenderLinkProps } from './render-context'

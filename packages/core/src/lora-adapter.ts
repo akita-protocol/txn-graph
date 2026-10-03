@@ -73,6 +73,9 @@ export type LoraHrefs = {
   account(address: Address): string
   asset(id: AssetId): string
   application(id: ApplicationId): string
+  /** Transaction ids as the converter set them (inner ids included). */
+  transaction?(id: string): string
+  group?(id: string): string
 }
 
 export type CreateLoraDataProviderOptions = {
@@ -160,10 +163,10 @@ function buildHref(ref: EntityRef, hrefs: LoraHrefs): string | null {
       return hrefs.asset(ref.id)
     case 'application':
       return hrefs.application(ref.id)
-    default:
-      // transaction / group kinds aren't wired by the adapter — the consumer
-      // can supply their own `resolveHref` via `DataProvider` directly.
-      return null
+    case 'transaction':
+      return hrefs.transaction?.(ref.id) ?? null
+    case 'group':
+      return hrefs.group?.(ref.id) ?? null
   }
 }
 

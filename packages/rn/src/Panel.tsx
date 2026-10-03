@@ -141,8 +141,20 @@ function ScopePanel({ c, rootTitle }: { c: TxnGraphController; rootTitle: string
         </Section>
       )}
       <Text style={s.panelDesc}>{describeScope(view)}</Text>
+      <TxnList c={c} flows={outerFlows(c)} title={view.entity ? 'Calls' : 'Top-level transactions'} />
     </>
   )
+}
+
+/** The main flow of each of the scope's outermost transactions, in group order. */
+function outerFlows(c: TxnGraphController): Flow[] {
+  const flows: Flow[] = []
+  for (const id of c.graph.order) {
+    if (!c.view.scope.rootTxnIds.has(id)) continue
+    const main = c.graph.flowsByTxn.get(id)?.[0]
+    if (main) flows.push(main)
+  }
+  return flows
 }
 
 function BlockPanel({ c, block }: { c: TxnGraphController; block: Block }) {
@@ -244,7 +256,7 @@ function ConnectionPanel({ c, conns }: { c: TxnGraphController; conns: Connectio
   )
 }
 
-function TxnList({ c, flows }: { c: TxnGraphController; flows: Flow[] }) {
+function TxnList({ c, flows, title = 'Transactions' }: { c: TxnGraphController; flows: Flow[]; title?: string }) {
   const s = useStyles()
   const seen = new Set<string>()
   const unique = flows.filter((f) => (seen.has(f.id) ? false : (seen.add(f.id), true)))
@@ -252,7 +264,7 @@ function TxnList({ c, flows }: { c: TxnGraphController; flows: Flow[] }) {
   const order = new Map(c.graph.order.map((id, i) => [id, i]))
   unique.sort((a, b) => order.get(a.txnId)! - order.get(b.txnId)! || a.id.localeCompare(b.id))
   return (
-    <Section title="Transactions">
+    <Section title={title}>
       {unique.slice(0, MAX_ROWS).map((f) => (
         <TxnItem key={f.id} c={c} flow={f} />
       ))}

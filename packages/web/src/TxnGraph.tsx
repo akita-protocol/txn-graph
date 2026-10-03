@@ -17,8 +17,9 @@ import { Canvas } from './Canvas'
 import { Header } from './Header'
 import { Panel } from './Panel'
 import { css, themeVars } from './styles'
+import { RenderContext, type RenderSlots } from './render-context'
 
-export type TxnGraphProps = {
+export type TxnGraphProps = RenderSlots & {
   transactions: readonly GraphTransaction[]
   /** Root title. Default: `Transaction group`. */
   title?: string
@@ -37,6 +38,11 @@ export type TxnGraphProps = {
   initialScopePath?: EntityId[]
   onScopeChange?: (path: EntityId[]) => void
   onSelectionChange?: (selection: Focus | null) => void
+  /**
+   * Animate scope changes. Default: true, except under
+   * `process.env.NODE_ENV === 'test'` so DOM snapshots stay deterministic.
+   */
+  animate?: boolean
   className?: string
   style?: React.CSSProperties
 }
@@ -64,7 +70,14 @@ function TxnGraphInner({
   onSelectionChange,
   className,
   style,
+  renderTransactionDetails,
+  renderLink,
+  animate = !isTestEnv(),
 }: TxnGraphProps) {
+  const slots = useMemo(
+    () => ({ renderTransactionDetails, renderLink, animate }),
+    [renderTransactionDetails, renderLink, animate],
+  )
   const scheme = useScheme(colorScheme)
   const themeKey = JSON.stringify(themeInput ?? {})
   const theme = useMemo(
@@ -106,6 +119,7 @@ function TxnGraphInner({
 
   return (
     <ThemeContext.Provider value={theme}>
+      <RenderContext.Provider value={slots}>
       <MotionConfig reducedMotion="user">
         <div
           ref={root}
@@ -124,8 +138,16 @@ function TxnGraphInner({
           {showPanel && <Panel c={c} rootTitle={title} />}
         </div>
       </MotionConfig>
+      </RenderContext.Provider>
     </ThemeContext.Provider>
   )
+}
+
+// Declared locally so the package doesn't need @types/node.
+declare const process: { env?: Record<string, string | undefined> } | undefined
+
+function isTestEnv(): boolean {
+  return typeof process !== 'undefined' && process?.env?.NODE_ENV === 'test'
 }
 
 function useScheme(pref: 'dark' | 'light' | 'auto'): 'dark' | 'light' {
