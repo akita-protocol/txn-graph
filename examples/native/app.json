@@ -1,0 +1,13 @@
+{
+  "expo": {
+    "name": "txn-graph",
+    "slug": "txn-graph-example",
+    "version": "0.0.0",
+    "orientation": "default",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": { "supportsTablet": true, "bundleIdentifier": "community.akita.txngraph.example" },
+    "android": { "package": "community.akita.txngraph.example" },
+    "web": { "bundler": "metro" }
+  }
+}
