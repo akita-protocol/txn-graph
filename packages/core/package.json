@@ -1,0 +1,53 @@
+{
+  "name": "@akta/txn-graph-core",
+  "version": "0.1.0",
+  "description": "Platform-neutral core for the Akita txn-graph visualizer: graph building, drill-down scopes, layout, theme tokens, data provider, and the useTxnGraph controller — shared by @akta/txn-graph-web and @akta/txn-graph-rn.",
+  "license": "MIT",
+  "keywords": [
+    "algorand",
+    "transaction-graph",
+    "visualizer",
+    "dagre"
+  ],
+  "sideEffects": false,
+  "source": "src/index.ts",
+  "main": "src/index.ts",
+  "module": "src/index.ts",
+  "types": "src/index.ts",
+  "files": [
+    "src/",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "source": "./src/index.ts",
+      "types": "./src/index.ts",
+      "import": "./src/index.ts",
+      "require": "./src/index.ts"
+    },
+    "./lora-adapter": {
+      "source": "./src/lora-adapter.ts",
+      "types": "./src/lora-adapter.ts",
+      "import": "./src/lora-adapter.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p .",
+    "lint": "eslint src/ --fix"
+  },
+  "peerDependencies": {
+    "react": ">=18.2.0"
+  },
+  "dependencies": {
+    "@dagrejs/dagre": "^1.1.4"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.0",
+    "react": "19.1.0",
+    "typescript": "~5.9.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

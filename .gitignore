@@ -8,5 +8,12 @@ dist/
 .idea/
 coverage/
 .pnpm-store/
-example/node_modules/
-example/.expo/
+# tsc incremental build state (only used when `composite` / `incremental` are on;
+# we don't use either, but defensive so stale files never re-enter the repo).
+tsconfig.tsbuildinfo
+*.tsbuildinfo
+
+# Expo
+.expo/
+examples/native/ios/
+examples/native/android/
