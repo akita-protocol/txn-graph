@@ -1,0 +1,29 @@
+# Lora (akita-protocol/lora) builds against this repo's main branch, so a
+# change here should redeploy explorer.akita.community. This sends the
+# repository_dispatch event its deploy workflow listens for.
+#
+# Secret AKITA_REPOS_TOKEN: fine-grained PAT with Contents read/write on
+# akita-protocol/lora (write is required to send repository_dispatch).
+name: Redeploy explorer
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'packages/core/**'
+      - 'packages/web/**'
+      - 'pnpm-lock.yaml'
+
+permissions: {}
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger lora deploy
+        env:
+          GH_TOKEN: ${{ secrets.AKITA_REPOS_TOKEN }}
+        run: |
+          gh api repos/akita-protocol/lora/dispatches \
+            -f event_type=txn-graph-updated \
+            -f "client_payload[sha]=${{ github.sha }}"
