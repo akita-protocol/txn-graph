@@ -29,7 +29,7 @@ Everything from `@akta/txn-graph-core` is re-exported, including the
 
 ## Monorepos
 
-Ships TypeScript source, which Metro compiles. With pnpm's isolated installs,
+With pnpm's isolated installs,
 make sure `react-native` and its native peers resolve to a single copy (two
 copies of `react-native` in one bundle crash at startup); see
 `examples/native/metro.config.js` in the repository for a resolver that pins

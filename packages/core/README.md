@@ -18,6 +18,6 @@ renderer.
 - `createLoraDataProvider` (from `@akta/txn-graph-core/lora-adapter`) for
   algokit-lora style resolvers
 
-No DOM or React Native code. Ships TypeScript source.
+No DOM or React Native code.
 
 MIT licensed.

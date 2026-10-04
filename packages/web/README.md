@@ -32,11 +32,4 @@ Tailwind or CSS pipeline. Useful props: `colorScheme` (`'auto'` by default),
 Everything from `@akta/txn-graph-core` is re-exported, including the
 `useTxnGraph` controller for custom renderers.
 
-## TypeScript source
-
-This package ships TypeScript source (no build step). Bundlers that compile
-dependencies handle it out of the box (Vite, Metro, Bun, Turbopack). For
-Next.js add it to `transpilePackages`; for webpack, let your TS loader include
-`node_modules/@akta`.
-
 MIT licensed.

@@ -1,6 +1,6 @@
 {
   "name": "@akta/txn-graph-rn",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "React Native renderer for the Akita txn-graph visualizer. Built on react-native-svg + Reanimated + Gesture Handler.",
   "license": "MIT",
   "keywords": [
@@ -36,8 +36,8 @@
   "scripts": {
     "typecheck": "tsc --noEmit -p .",
     "lint": "eslint src/ --fix",
-    "build:types": "rm -rf dist && tsc -p tsconfig.build.json",
-    "prepack": "pnpm build:types"
+    "prepack": "pnpm build",
+    "build": "rm -rf dist && tsc -p tsconfig.build.json"
   },
   "dependencies": {
     "@akta/txn-graph-core": "workspace:^"
@@ -60,13 +60,15 @@
   },
   "publishConfig": {
     "access": "public",
+    "main": "./dist/index.js",
+    "module": "./dist/index.js",
     "types": "./dist/index.d.ts",
     "exports": {
       ".": {
         "types": "./dist/index.d.ts",
-        "react-native": "./src/index.ts",
-        "import": "./src/index.ts",
-        "default": "./src/index.ts"
+        "react-native": "./dist/index.js",
+        "import": "./dist/index.js",
+        "default": "./dist/index.js"
       },
       "./package.json": "./package.json"
     }

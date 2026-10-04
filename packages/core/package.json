@@ -1,6 +1,6 @@
 {
   "name": "@akta/txn-graph-core",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Platform-neutral core for the Akita txn-graph visualizer: graph building, drill-down scopes, layout, theme tokens, data provider, and the useTxnGraph controller — shared by @akta/txn-graph-web and @akta/txn-graph-rn.",
   "license": "MIT",
   "keywords": [
@@ -37,8 +37,8 @@
   "scripts": {
     "typecheck": "tsc --noEmit -p .",
     "lint": "eslint src/ --fix",
-    "build:types": "rm -rf dist && tsc -p tsconfig.build.json",
-    "prepack": "pnpm build:types"
+    "prepack": "pnpm build",
+    "build": "rm -rf dist && tsc -p tsconfig.build.json"
   },
   "peerDependencies": {
     "react": ">=18.2.0"
@@ -53,17 +53,19 @@
   },
   "publishConfig": {
     "access": "public",
+    "main": "./dist/index.js",
+    "module": "./dist/index.js",
     "types": "./dist/index.d.ts",
     "exports": {
       ".": {
         "types": "./dist/index.d.ts",
-        "import": "./src/index.ts",
-        "default": "./src/index.ts"
+        "import": "./dist/index.js",
+        "default": "./dist/index.js"
       },
       "./lora-adapter": {
         "types": "./dist/lora-adapter.d.ts",
-        "import": "./src/lora-adapter.ts",
-        "default": "./src/lora-adapter.ts"
+        "import": "./dist/lora-adapter.js",
+        "default": "./dist/lora-adapter.js"
       },
       "./package.json": "./package.json"
     }

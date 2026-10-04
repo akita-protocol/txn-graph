@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { BackHandler, View, useColorScheme, type StyleProp, type ViewStyle } from 'react-native'
 import {
   DataProvider,

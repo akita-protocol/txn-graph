@@ -6,6 +6,17 @@ here. The project loosely follows
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html). All three
 packages release together at matched versions.
 
+## [0.2.1] — 2026-10-04
+
+### Fixed
+
+- Packages now publish compiled ESM JavaScript (JSX already transformed to
+  `react/jsx-runtime`) plus `.d.ts` declarations. 0.2.0 shipped `.tsx`
+  source whose automatic-JSX setting lived in the repo's tsconfig, so
+  bundlers compiling it from `node_modules` fell back to the classic runtime
+  and threw `React is not defined` (seen in Vite 7 + SWC). Consumers no
+  longer need to compile the packages at all.
+
 ## [0.2.0] — 2026-10-04
 
 First npm release of the redesigned packages.
