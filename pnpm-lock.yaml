@@ -128,10 +128,11 @@ importers:
         version: 5.9.3
 
   packages/rn:
-    devDependencies:
+    dependencies:
       '@akta/txn-graph-core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
+    devDependencies:
       '@types/react':
         specifier: ^19.1.0
         version: 19.2.14
@@ -155,10 +156,11 @@ importers:
         version: 5.9.3
 
   packages/web:
-    devDependencies:
+    dependencies:
       '@akta/txn-graph-core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
+    devDependencies:
       '@types/react':
         specifier: ^19.1.0
         version: 19.2.14

@@ -6,7 +6,33 @@ here. The project loosely follows
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html). All three
 packages release together at matched versions.
 
-## [Unreleased]
+## [0.2.0] — 2026-10-04
+
+First npm release of the redesigned packages.
+
+### Packaging
+
+- `@akta/txn-graph-web` and `@akta/txn-graph-rn` depend on
+  `@akta/txn-graph-core` directly (it was a peer), so one install is enough.
+- Packages ship TypeScript source for the runtime plus generated `.d.ts`
+  declarations as their `types`, so consumers' own `tsc` (including Vite's
+  default `erasableSyntaxOnly` setup) never type-checks library source.
+- Per-package README and LICENSE.
+
+### Added
+
+- Web render slots: `renderTransactionDetails` (expandable transaction rows
+  in the panel) and `renderLink` (route `DataProvider.resolveHref` links
+  through a router). Panels link entity, app, group and transaction pages
+  when hrefs resolve; `LoraHrefs` gains optional `transaction` / `group`.
+- The scope panel lists the scope's outermost transactions (web + RN).
+- `animate` prop (web), off by default under `NODE_ENV=test` for
+  deterministic DOM snapshots.
+
+### Fixed
+
+- `useResolved` no longer leaks an unhandled rejection when a priming
+  lookup fails.
 
 ### Changed — breaking: overview redesign
 

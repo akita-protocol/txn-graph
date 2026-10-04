@@ -1,15 +1,15 @@
 {
   "name": "@akta/txn-graph-web",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Web renderer for the Akita txn-graph visualizer. DOM + SVG + Motion — zero React Native dependencies.",
   "license": "MIT",
   "keywords": [
     "algorand",
-    "transaction-graph",
-    "visualizer",
-    "svg",
     "motion",
-    "react"
+    "react",
+    "svg",
+    "transaction-graph",
+    "visualizer"
   ],
   "sideEffects": false,
   "source": "src/index.ts",
@@ -18,7 +18,9 @@
   "types": "src/index.ts",
   "files": [
     "src/",
-    "README.md"
+    "dist/",
+    "README.md",
+    "LICENSE"
   ],
   "exports": {
     ".": {
@@ -31,16 +33,19 @@
   },
   "scripts": {
     "typecheck": "tsc --noEmit -p .",
-    "lint": "eslint src/ --fix"
+    "lint": "eslint src/ --fix",
+    "build:types": "rm -rf dist && tsc -p tsconfig.build.json",
+    "prepack": "pnpm build:types"
+  },
+  "dependencies": {
+    "@akta/txn-graph-core": "workspace:^"
   },
   "peerDependencies": {
-    "@akta/txn-graph-core": "workspace:*",
     "motion": ">=12.0.0",
     "react": ">=18.2.0",
     "react-dom": ">=18.2.0"
   },
   "devDependencies": {
-    "@akta/txn-graph-core": "workspace:*",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
     "motion": "^12.0.0",
@@ -49,6 +54,15 @@
     "typescript": "~5.9.2"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "types": "./dist/index.d.ts",
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "import": "./src/index.ts",
+        "default": "./src/index.ts"
+      },
+      "./package.json": "./package.json"
+    }
   }
 }

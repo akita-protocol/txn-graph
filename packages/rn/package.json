@@ -1,15 +1,15 @@
 {
   "name": "@akta/txn-graph-rn",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "React Native renderer for the Akita txn-graph visualizer. Built on react-native-svg + Reanimated + Gesture Handler.",
   "license": "MIT",
   "keywords": [
     "algorand",
-    "transaction-graph",
-    "visualizer",
     "react-native",
     "react-native-svg",
-    "reanimated"
+    "reanimated",
+    "transaction-graph",
+    "visualizer"
   ],
   "sideEffects": false,
   "source": "src/index.ts",
@@ -19,7 +19,9 @@
   "types": "src/index.ts",
   "files": [
     "src/",
-    "README.md"
+    "dist/",
+    "README.md",
+    "LICENSE"
   ],
   "exports": {
     ".": {
@@ -33,10 +35,14 @@
   },
   "scripts": {
     "typecheck": "tsc --noEmit -p .",
-    "lint": "eslint src/ --fix"
+    "lint": "eslint src/ --fix",
+    "build:types": "rm -rf dist && tsc -p tsconfig.build.json",
+    "prepack": "pnpm build:types"
+  },
+  "dependencies": {
+    "@akta/txn-graph-core": "workspace:^"
   },
   "peerDependencies": {
-    "@akta/txn-graph-core": "workspace:*",
     "react": ">=18.2.0",
     "react-native": ">=0.81.0",
     "react-native-gesture-handler": ">=2.20.0",
@@ -44,7 +50,6 @@
     "react-native-svg": ">=15.0.0"
   },
   "devDependencies": {
-    "@akta/txn-graph-core": "workspace:*",
     "@types/react": "^19.1.0",
     "react": "19.1.0",
     "react-native": "0.81.5",
@@ -54,6 +59,16 @@
     "typescript": "~5.9.2"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "types": "./dist/index.d.ts",
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "react-native": "./src/index.ts",
+        "import": "./src/index.ts",
+        "default": "./src/index.ts"
+      },
+      "./package.json": "./package.json"
+    }
   }
 }
