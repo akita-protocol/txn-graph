@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { TxnGraph } from '@akta/txn-graph-web'
-import { fixtures, mockDataProvider } from '@akta/txn-graph-fixtures'
+import { TxnGraph } from '@akita-protocol/txn-graph-web'
+import { fixtures, mockDataProvider } from '@akita-protocol/txn-graph-fixtures'
 
 function App() {
   const [key, setKey] = useState(fixtures[0].key)

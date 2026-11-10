@@ -1,5 +1,5 @@
 {
-  "name": "@akta/txn-graph-fixtures",
+  "name": "@akita-protocol/txn-graph-fixtures",
   "version": "0.0.0",
   "private": true,
   "main": "src/index.ts",
@@ -9,7 +9,7 @@
     "typecheck": "tsc --noEmit -p ."
   },
   "dependencies": {
-    "@akta/txn-graph-core": "workspace:*"
+    "@akita-protocol/txn-graph-core": "workspace:*"
   },
   "devDependencies": {
     "typescript": "~5.9.2"

@@ -1,14 +1,14 @@
 {
-  "name": "@akta/txn-graph-workspace",
+  "name": "@akita-protocol/txn-graph-workspace",
   "private": true,
   "version": "0.0.0",
-  "description": "Workspace root for @akta/txn-graph-{core,web,rn} — interactive overview of Algorand transaction groups for React and React Native.",
+  "description": "Workspace root for @akita-protocol/txn-graph-{core,web,rn} — interactive overview of Algorand transaction groups for React and React Native.",
   "license": "MIT",
   "scripts": {
     "typecheck": "pnpm -r typecheck",
     "lint": "pnpm -r lint",
-    "dev:web": "pnpm --filter @akta/txn-graph-example-web dev",
-    "dev:native": "pnpm --filter @akta/txn-graph-example-native start"
+    "dev:web": "pnpm --filter @akita-protocol/txn-graph-example-web dev",
+    "dev:native": "pnpm --filter @akita-protocol/txn-graph-example-native start"
   },
   "devDependencies": {
     "typescript": "~5.9.2"

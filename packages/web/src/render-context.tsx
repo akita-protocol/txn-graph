@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react'
-import type { GraphTransaction } from '@akta/txn-graph-core'
+import type { GraphTransaction } from '@akita-protocol/txn-graph-core'
 
 export type RenderLinkProps = { href: string; className?: string; children: React.ReactNode }
 

@@ -17,7 +17,7 @@ import {
   type Connection,
   type Flow,
   type TxnGraphController,
-} from '@akta/txn-graph-core'
+} from '@akita-protocol/txn-graph-core'
 import { EntityName, LineSwatch, useStyles } from './parts'
 
 const MAX_ROWS = 30

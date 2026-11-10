@@ -1,4 +1,4 @@
-import type { ThemeTokens } from '@akta/txn-graph-core'
+import type { ThemeTokens } from '@akita-protocol/txn-graph-core'
 import type { CSSProperties } from 'react'
 
 /** Theme tokens as CSS custom properties on the root element. */

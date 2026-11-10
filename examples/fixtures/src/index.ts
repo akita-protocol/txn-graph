@@ -6,7 +6,7 @@ import {
   type AppCallGraphTransaction,
   type DataProviderApi,
   type GraphTransaction,
-} from '@akta/txn-graph-core'
+} from '@akita-protocol/txn-graph-core'
 
 // ── Deterministic fake addresses / ids ───────────────────────────────────────
 

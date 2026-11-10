@@ -3,8 +3,8 @@ import { Pressable, ScrollView, Text, View, useColorScheme } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 import { StatusBar } from 'expo-status-bar'
-import { TxnGraph, darkTheme, lightTheme } from '@akta/txn-graph-rn'
-import { fixtures, mockDataProvider } from '@akta/txn-graph-fixtures'
+import { TxnGraph, darkTheme, lightTheme } from '@akita-protocol/txn-graph-rn'
+import { fixtures, mockDataProvider } from '@akita-protocol/txn-graph-fixtures'
 
 export default function App() {
   const scheme = useColorScheme() === 'light' ? 'light' : 'dark'

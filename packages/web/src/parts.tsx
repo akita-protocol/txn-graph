@@ -11,7 +11,7 @@ import {
   type Entity,
   type Flow,
   type TxnGraph,
-} from '@akta/txn-graph-core'
+} from '@akita-protocol/txn-graph-core'
 import { MaybeLink, useRenderSlots } from './render-context'
 
 /** Legend sample of a connection kind: its color and dash, with an arrowhead. */

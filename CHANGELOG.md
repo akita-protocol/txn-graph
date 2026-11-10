@@ -1,10 +1,20 @@
 # Changelog
 
-All notable changes to `@akta/txn-graph-{core,web,rn}` are documented
+All notable changes to `@akita-protocol/txn-graph-{core,web,rn}` (published as
+`@akta/txn-graph-*` up to 0.2.1) are documented
 here. The project loosely follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html). All three
 packages release together at matched versions.
+
+## Unreleased
+
+### Changed
+
+- The packages moved to the `@akita-protocol` npm scope:
+  `@akita-protocol/txn-graph-core`, `@akita-protocol/txn-graph-web` and
+  `@akita-protocol/txn-graph-rn`. 0.2.1 is republished under the new names
+  unchanged; the `@akta/txn-graph-*` packages are deprecated.
 
 ## [0.2.1] — 2026-10-04
 

@@ -1,5 +1,5 @@
 {
-  "name": "@akta/txn-graph-example-native",
+  "name": "@akita-protocol/txn-graph-example-native",
   "version": "0.0.0",
   "private": true,
   "main": "index.ts",
@@ -11,8 +11,8 @@
     "typecheck": "tsc --noEmit -p ."
   },
   "dependencies": {
-    "@akta/txn-graph-fixtures": "workspace:*",
-    "@akta/txn-graph-rn": "workspace:*",
+    "@akita-protocol/txn-graph-fixtures": "workspace:*",
+    "@akita-protocol/txn-graph-rn": "workspace:*",
     "@expo/metro-runtime": "~6.1.2",
     "expo": "~54.0.0",
     "expo-status-bar": "~3.0.8",

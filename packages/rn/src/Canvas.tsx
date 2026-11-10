@@ -12,7 +12,7 @@ import {
   type Block,
   type Flow,
   type TxnGraphController,
-} from '@akta/txn-graph-core'
+} from '@akita-protocol/txn-graph-core'
 import { useStyles } from './parts'
 import { useViewport } from './useViewport'
 
