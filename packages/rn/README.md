@@ -1,4 +1,4 @@
-# @akta/txn-graph-rn
+# @akita-protocol/txn-graph-rn
 
 Interactive overview of an Algorand transaction group for React Native
 (iOS, Android, and react-native-web). Accounts and apps are blocks, every
@@ -7,12 +7,12 @@ row. Tap a block to highlight it; tap an app with inner transactions again
 (or its `›`) to open it. Pan with one finger, pinch to zoom.
 
 ```bash
-npm install @akta/txn-graph-rn react-native-svg react-native-reanimated react-native-gesture-handler
+npm install @akita-protocol/txn-graph-rn react-native-svg react-native-reanimated react-native-gesture-handler
 ```
 
 ```tsx
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { TxnGraph } from '@akta/txn-graph-rn'
+import { TxnGraph } from '@akita-protocol/txn-graph-rn'
 
 <GestureHandlerRootView style={{ flex: 1 }}>
   <TxnGraph transactions={transactions} dataProvider={dataProvider} style={{ flex: 1 }} />
@@ -24,7 +24,7 @@ a number. The details panel sits under the graph (`panelMaxHeight`, default
 260), and the Android back button clears the selection, then climbs out of
 opened apps.
 
-Everything from `@akta/txn-graph-core` is re-exported, including the
+Everything from `@akita-protocol/txn-graph-core` is re-exported, including the
 `useTxnGraph` controller for custom renderers.
 
 ## Monorepos

@@ -7,7 +7,7 @@ import {
   type ConnectionKind,
   type Entity,
   type ThemeTokens,
-} from '@akta/txn-graph-core'
+} from '@akita-protocol/txn-graph-core'
 
 export const MONO = Platform.select({ ios: 'Menlo', android: 'monospace', default: 'monospace' })
 

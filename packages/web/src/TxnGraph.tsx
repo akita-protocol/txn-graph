@@ -12,7 +12,7 @@ import {
   type Focus,
   type GraphTransaction,
   type ThemeInput,
-} from '@akta/txn-graph-core'
+} from '@akita-protocol/txn-graph-core'
 import { Canvas } from './Canvas'
 import { Header } from './Header'
 import { Panel } from './Panel'

@@ -1,5 +1,5 @@
 {
-  "name": "@akta/txn-graph-rn",
+  "name": "@akita-protocol/txn-graph-rn",
   "version": "0.2.1",
   "description": "React Native renderer for the Akita txn-graph visualizer. Built on react-native-svg + Reanimated + Gesture Handler.",
   "license": "MIT",
@@ -40,7 +40,7 @@
     "build": "rm -rf dist && tsc -p tsconfig.build.json"
   },
   "dependencies": {
-    "@akta/txn-graph-core": "workspace:^"
+    "@akita-protocol/txn-graph-core": "workspace:^"
   },
   "peerDependencies": {
     "react": ">=18.2.0",
@@ -72,5 +72,10 @@
       },
       "./package.json": "./package.json"
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akita-protocol/txn-graph.git",
+    "directory": "packages/rn"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "@akta/txn-graph-example-web",
+  "name": "@akita-protocol/txn-graph-example-web",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -9,8 +9,8 @@
     "typecheck": "tsc --noEmit -p ."
   },
   "dependencies": {
-    "@akta/txn-graph-fixtures": "workspace:*",
-    "@akta/txn-graph-web": "workspace:*",
+    "@akita-protocol/txn-graph-fixtures": "workspace:*",
+    "@akita-protocol/txn-graph-web": "workspace:*",
     "motion": "^12.0.0",
     "react": "19.1.0",
     "react-dom": "19.1.0"

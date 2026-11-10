@@ -1,8 +1,8 @@
 /**
- * @akta/txn-graph-core — platform-neutral logic for the Akita txn-graph
+ * @akita-protocol/txn-graph-core — platform-neutral logic for the Akita txn-graph
  * visualizer: graph building, drill-down scopes, layout, theme tokens, and
- * the `useTxnGraph` controller shared by `@akta/txn-graph-web` and
- * `@akta/txn-graph-rn`. No DOM or React Native code.
+ * the `useTxnGraph` controller shared by `@akita-protocol/txn-graph-web` and
+ * `@akita-protocol/txn-graph-rn`. No DOM or React Native code.
  */
 
 // ── Input model

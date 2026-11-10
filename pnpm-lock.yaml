@@ -14,7 +14,7 @@ importers:
 
   examples/fixtures:
     dependencies:
-      '@akta/txn-graph-core':
+      '@akita-protocol/txn-graph-core':
         specifier: workspace:*
         version: link:../../packages/core
     devDependencies:
@@ -24,10 +24,10 @@ importers:
 
   examples/native:
     dependencies:
-      '@akta/txn-graph-fixtures':
+      '@akita-protocol/txn-graph-fixtures':
         specifier: workspace:*
         version: link:../fixtures
-      '@akta/txn-graph-rn':
+      '@akita-protocol/txn-graph-rn':
         specifier: workspace:*
         version: link:../../packages/rn
       '@expo/metro-runtime':
@@ -79,10 +79,10 @@ importers:
 
   examples/web:
     dependencies:
-      '@akta/txn-graph-fixtures':
+      '@akita-protocol/txn-graph-fixtures':
         specifier: workspace:*
         version: link:../fixtures
-      '@akta/txn-graph-web':
+      '@akita-protocol/txn-graph-web':
         specifier: workspace:*
         version: link:../../packages/web
       motion:
@@ -129,7 +129,7 @@ importers:
 
   packages/rn:
     dependencies:
-      '@akta/txn-graph-core':
+      '@akita-protocol/txn-graph-core':
         specifier: workspace:^
         version: link:../core
     devDependencies:
@@ -157,7 +157,7 @@ importers:
 
   packages/web:
     dependencies:
-      '@akta/txn-graph-core':
+      '@akita-protocol/txn-graph-core':
         specifier: workspace:^
         version: link:../core
     devDependencies:

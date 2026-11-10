@@ -1,4 +1,4 @@
-# @akta/txn-graph
+# @akita-protocol/txn-graph
 
 Interactive overview of an Algorand transaction group, for the web and React
 Native. Accounts and apps are blocks, every transaction is a typed,
@@ -8,9 +8,9 @@ back up.
 
 | Package                | What it is                                                        |
 | ---------------------- | ----------------------------------------------------------------- |
-| `@akta/txn-graph-core` | Graph building, drill-down scopes, layout, theme, `useTxnGraph`   |
-| `@akta/txn-graph-web`  | `<TxnGraph>` for the web: DOM + SVG + [Motion](https://motion.dev) |
-| `@akta/txn-graph-rn`   | `<TxnGraph>` for React Native: react-native-svg + Reanimated + RNGH |
+| `@akita-protocol/txn-graph-core` | Graph building, drill-down scopes, layout, theme, `useTxnGraph`   |
+| `@akita-protocol/txn-graph-web`  | `<TxnGraph>` for the web: DOM + SVG + [Motion](https://motion.dev) |
+| `@akita-protocol/txn-graph-rn`   | `<TxnGraph>` for React Native: react-native-svg + Reanimated + RNGH |
 
 Both renderers re-export the whole core, so you install one package.
 
@@ -50,19 +50,19 @@ address lands on the app's block.
 Web:
 
 ```bash
-pnpm add @akta/txn-graph-web motion react react-dom
+pnpm add @akita-protocol/txn-graph-web motion react react-dom
 ```
 
 React Native:
 
 ```bash
-pnpm add @akta/txn-graph-rn react-native-svg react-native-reanimated react-native-gesture-handler
+pnpm add @akita-protocol/txn-graph-rn react-native-svg react-native-reanimated react-native-gesture-handler
 ```
 
 ## Web
 
 ```tsx
-import { TxnGraph, type DataProviderApi } from '@akta/txn-graph-web'
+import { TxnGraph, type DataProviderApi } from '@akita-protocol/txn-graph-web'
 
 const dataProvider: DataProviderApi = {
   getAccountSummary: (address) => ({ address, name: nfdFor(address) }),
@@ -82,7 +82,7 @@ drag pans, and the toolbar's percentage button refits.
 
 ```tsx
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { TxnGraph } from '@akta/txn-graph-rn'
+import { TxnGraph } from '@akita-protocol/txn-graph-rn'
 
 <GestureHandlerRootView style={{ flex: 1 }}>
   <TxnGraph transactions={transactions} dataProvider={dataProvider} height={440} />
@@ -138,8 +138,8 @@ data, with `original` as a passthrough) and render `<TxnGraph>`.
 
 ```bash
 pnpm install
-pnpm --filter @akta/txn-graph-example-web dev       # Vite, http://localhost:5181
-pnpm --filter @akta/txn-graph-example-native start  # Expo (iOS / Android / web)
+pnpm --filter @akita-protocol/txn-graph-example-web dev       # Vite, http://localhost:5181
+pnpm --filter @akita-protocol/txn-graph-example-native start  # Expo (iOS / Android / web)
 ```
 
 Both examples render the fixtures in `examples/fixtures`: an ARC-58 wallet

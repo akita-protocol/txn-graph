@@ -1,0 +1,114 @@
+name: Publish packages
+
+# Publishes @akita-protocol/txn-graph-core, -web and -rn to npm. All three release together at
+# matched versions.
+#
+# Push a tag named after the version the packages carry, e.g. `v0.2.1`:
+#   git tag v0.2.1 && git push origin v0.2.1
+# A prerelease goes out under its own dist-tag (0.3.0-alpha.0 -> `alpha`), so `latest` only moves
+# for a plain release. Run it by hand from the Actions tab to rehearse with a dry run, or to pick
+# the dist-tag yourself.
+#
+# Publishes through npm trusted publishing (OIDC), so there is no npm token to keep. Each package
+# needs a GitHub Actions trusted publisher on npmjs.com: organization akita-protocol, repository
+# txn-graph, workflow publish.yml. npm only takes one for a package that already exists, so for a
+# package's very first version put a short-lived npm token in the NPM_TOKEN repository secret for
+# that one run (npm tries OIDC first and falls back to it), then delete the secret and the token.
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      dist-tag:
+        description: "npm dist-tag (empty: from the version, e.g. alpha for 0.3.0-alpha.0)"
+        required: false
+        default: ""
+      dry-run:
+        description: "Pack and check only, publish nothing"
+        type: boolean
+        default: true
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      # Trusted publishing needs npm 11.5.1 or later.
+      - run: npm install -g npm@^11.5.1
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Check versions
+        id: version
+        env:
+          REF_TYPE: ${{ github.ref_type }}
+          REF_NAME: ${{ github.ref_name }}
+          INPUT_TAG: ${{ inputs.dist-tag }}
+        run: |
+          core=$(node -p "require('./packages/core/package.json').version")
+          for p in web rn; do
+            v=$(node -p "require('./packages/$p/package.json').version")
+            if [ "$v" != "$core" ]; then
+              echo "::error::txn-graph-core is $core but txn-graph-$p is $v; publish them at the same version."
+              exit 1
+            fi
+          done
+          if [ "$REF_TYPE" = "tag" ] && [ "$REF_NAME" != "v$core" ]; then
+            echo "::error::Tag $REF_NAME does not match the package version v$core."
+            exit 1
+          fi
+          tag="$INPUT_TAG"
+          if [ -z "$tag" ]; then
+            case "$core" in
+              *-*) tag=$(echo "${core#*-}" | cut -d. -f1) ;;
+              *) tag=latest ;;
+            esac
+          fi
+          echo "version=$core" >> "$GITHUB_OUTPUT"
+          echo "dist-tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "Publishing $core under the '$tag' dist-tag."
+
+      - run: pnpm -r typecheck
+
+      - name: Publish
+        env:
+          # Empty unless a first publish needs it (see the top of this file).
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          VERSION: ${{ steps.version.outputs.version }}
+          DIST_TAG: ${{ steps.version.outputs.dist-tag }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry-run }}
+        run: |
+          # core first: web and rn depend on it. pnpm packs each package (running its prepack
+          # build) so workspace:^ becomes a real range and publishConfig points at dist/; npm
+          # publishes the tarball, since npm is what signs in with the workflow's OIDC token.
+          out="$RUNNER_TEMP/packs"
+          mkdir -p "$out"
+          for dir in packages/core packages/web packages/rn; do
+            name=$(node -p "require('./$dir/package.json').name")
+            tarball=$(cd "$dir" && pnpm pack --pack-destination "$out" | tail -n 1)
+            if [ "$DRY_RUN" = "true" ]; then
+              npm publish "$tarball" --dry-run --tag "$DIST_TAG" --access public
+            elif npm view "$name@$VERSION" version >/dev/null 2>&1; then
+              echo "$name@$VERSION is already on npm; skipping."
+            else
+              npm publish "$tarball" --tag "$DIST_TAG" --access public --provenance
+            fi
+          done

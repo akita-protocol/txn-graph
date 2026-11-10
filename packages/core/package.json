@@ -1,7 +1,7 @@
 {
-  "name": "@akta/txn-graph-core",
+  "name": "@akita-protocol/txn-graph-core",
   "version": "0.2.1",
-  "description": "Platform-neutral core for the Akita txn-graph visualizer: graph building, drill-down scopes, layout, theme tokens, data provider, and the useTxnGraph controller — shared by @akta/txn-graph-web and @akta/txn-graph-rn.",
+  "description": "Platform-neutral core for the Akita txn-graph visualizer: graph building, drill-down scopes, layout, theme tokens, data provider, and the useTxnGraph controller — shared by @akita-protocol/txn-graph-web and @akita-protocol/txn-graph-rn.",
   "license": "MIT",
   "keywords": [
     "algorand",
@@ -69,5 +69,10 @@
       },
       "./package.json": "./package.json"
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akita-protocol/txn-graph.git",
+    "directory": "packages/core"
   }
 }

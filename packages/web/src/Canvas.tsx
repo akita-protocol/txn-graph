@@ -12,7 +12,7 @@ import {
   type Flow,
   type Focus,
   type TxnGraphController,
-} from '@akta/txn-graph-core'
+} from '@akita-protocol/txn-graph-core'
 import { useViewport, type Viewport } from './useViewport'
 import { EntityName, FlowAmount } from './parts'
 import { useRenderSlots } from './render-context'

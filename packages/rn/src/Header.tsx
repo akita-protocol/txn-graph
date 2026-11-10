@@ -7,7 +7,7 @@ import {
   useEntityTitle,
   visibleFlows,
   type TxnGraphController,
-} from '@akta/txn-graph-core'
+} from '@akita-protocol/txn-graph-core'
 import { EntityName, LineSwatch, useStyles } from './parts'
 
 export function Header({ c, rootTitle }: { c: TxnGraphController; rootTitle: string }) {
